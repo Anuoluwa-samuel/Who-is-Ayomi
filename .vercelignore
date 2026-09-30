@@ -1,0 +1,5 @@
+data
+legacy
+.claude
+node_modules
+*.log

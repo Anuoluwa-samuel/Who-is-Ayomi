@@ -1,0 +1,12 @@
+{
+  "tag": "About me",
+  "heading": "I'm passionate about *creating* digital solutions",
+  "text": "With 4+ years of experience in web development, I help businesses and individuals bring their ideas to life through clean, efficient, and user-friendly code.",
+  "button": "Learn More About Me",
+  "stats": [
+    { "value": 4, "suffix": "+", "label": "Years Experience" },
+    { "value": 50, "suffix": "+", "label": "Projects Completed" },
+    { "value": 30, "suffix": "+", "label": "Happy Clients" },
+    { "value": 100, "suffix": "%", "label": "Client Satisfaction" }
+  ]
+}

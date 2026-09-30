@@ -1,0 +1,10 @@
+{
+  "tag": "Featured projects",
+  "heading": "Some of my *recent work*",
+  "linkLabel": "View Project",
+  "items": [
+    { "title": "E-Commerce Platform", "blurb": "Full-stack e-commerce solution with modern UI/UX", "link": "#", "art": "bloom" },
+    { "title": "Task Management App", "blurb": "Collaborative task management application", "link": "#", "art": "ripple" },
+    { "title": "Crypto Dashboard", "blurb": "Real-time cryptocurrency tracking dashboard", "link": "#", "art": "aurora" }
+  ]
+}

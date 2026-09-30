@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alex — Web Developer Portfolio</title>
+  <meta name="description" content="Web developer building dreamy, exceptional digital experiences with modern technologies.">
+  <meta name="theme-color" content="#f5f1ff">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add("js","intro-active")</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ INTRO ============ -->
+<div class="intro" id="intro" role="presentation">
+  <div class="intro__top">
+    <span><span class="intro__label">Portfolio </span>&#10022; <span id="introYear">2026</span></span>
+    <span class="intro__sig" aria-hidden="true">A</span>
+    <span id="introCount">0%</span>
+  </div>
+
+  <div class="intro__stage">
+    <div class="intro__name" role="img" aria-label="Alex Kane">
+      <span class="intro__row" aria-hidden="true"><span style="--i:0">A</span><span style="--i:1">L</span><span style="--i:2">E</span><span style="--i:3">X</span></span>
+      <span class="intro__row" aria-hidden="true"><span style="--i:4">K</span><span style="--i:5">A</span><span style="--i:6">N</span><span style="--i:7">E</span></span>
+
+      <!-- Uses the same assets/photo.png as the hero; a soft silhouette shows until you add it. -->
+      <span class="intro__photo glass" aria-hidden="true">
+        <img src="assets/photo.png" alt="" onerror="this.remove()">
+        <svg viewBox="0 0 129 218" aria-hidden="true"><circle cx="64.500" cy="84" r="26" fill="#fff" fill-opacity=".8"/><path d="M8 218c0-44 24-68 56.500-68S121 174 121 218z" fill="#fff" fill-opacity=".7"/></svg>
+      </span>
+    </div>
+  </div>
+
+  <p class="intro__foot">
+    <span class="bw" style="--i:0">Designing</span> <span class="bw" style="--i:1">human</span> <span class="bw" style="--i:2">experiences</span> <span class="bw" style="--i:3">in</span> <span class="bw" style="--i:4">code.</span>
+  </p>
+
+  <button class="intro__enter glass" id="introEnter" type="button" aria-label="Enter site">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+</div>
+
+<!-- Liquid-glass refraction map (used by backdrop-filter on Chromium) -->
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="liquid" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011 0.014" numOctaves="2" seed="7" result="noise"/>
+    <feGaussianBlur in="noise" stdDeviation="3" result="soft"/>
+    <feDisplacementMap in="SourceGraphic" in2="soft" scale="46" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- Dreamy background -->
+<div class="aurora" aria-hidden="true">
+  <i class="blob" style="--w:62vmax;--c:#d9c9ff;left:-18%;top:-22%;--t:26s;--x:8vmax;--y:6vmax"></i>
+  <i class="blob" style="--w:54vmax;--c:#ffd3bd;right:-20%;top:-10%;--t:31s;--x:-7vmax;--y:9vmax"></i>
+  <i class="blob" style="--w:48vmax;--c:#bfe0ff;left:-14%;top:34%;--t:29s;--x:9vmax;--y:-6vmax"></i>
+  <i class="blob" style="--w:58vmax;--c:#ffc4dd;right:-22%;top:52%;--t:34s;--x:-8vmax;--y:-7vmax"></i>
+  <i class="blob" style="--w:46vmax;--c:#c4f3e0;left:8%;bottom:-24%;--t:28s;--x:6vmax;--y:-8vmax"></i>
+</div>
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav glass glass--liquid" id="top">
+  <a href="#home" class="logo" aria-label="Home">
+    <span class="logo__mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/><path d="m14 4-4 16"/></svg></span>
+    <span>CodeCraft</span>
+  </a>
+
+  <nav class="nav__links" id="navLinks" aria-label="Primary">
+    <i class="nav__pill" id="navPill" aria-hidden="true"></i>
+    <a href="#home" class="active">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <a href="#contact" class="btn btn--primary btn--sm nav__cta magnetic">Hire Me
+    <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+  </a>
+
+  <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <span class="tag glass"><i class="pulse"></i>I'm a web developer</span>
+      <h1 aria-label="Hi, I'm Alex. I build things for the web.">
+        <span class="line" aria-hidden="true">
+          <span class="w" style="--i:0">Hi,</span> <span class="w" style="--i:1">I'm</span> <span class="w" style="--i:2"><em>Alex</em></span>
+        </span>
+        <span class="line line--sub" aria-hidden="true">
+          <span class="w" style="--i:3">I</span> <span class="w" style="--i:4">build</span> <span class="w" style="--i:5">things</span> <span class="w" style="--i:6">for</span> <span class="w" style="--i:7">the</span> <span class="w" style="--i:8">web.</span>
+        </span>
+      </h1>
+      <p class="lead fade" style="--d:.9s">I'm a passionate web developer specializing in building exceptional digital experiences with modern technologies.</p>
+
+      <div class="hero__actions fade" style="--d:1.05s">
+        <a href="#projects" class="btn btn--primary btn--lg magnetic">View My Work
+          <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+        </a>
+        <a href="assets/cv.pdf" download class="btn btn--glass btn--lg magnetic">Download CV
+          <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+        </a>
+      </div>
+
+      <div class="tech fade" style="--d:1.2s">
+        <span class="eyebrow">Technologies I work with</span>
+        <ul class="tech__icons">
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"></li>
+          <li class="glass"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hero__visual" id="heroVisual" aria-hidden="true">
+      <div class="layer l-ring" data-depth="0.25"><div class="ring"><i></i></div></div>
+
+      <div class="layer l-arch" data-depth="0.5">
+        <div class="arch-wrap">
+          <div class="arch-outline"></div>
+          <!-- Drop your photo at assets/photo.png — any framing works, it fills the arch. -->
+          <figure class="arch glass">
+            <img src="assets/photo.png" alt="" onerror="this.remove()">
+            <svg class="arch__fallback" viewBox="0 0 200 260" aria-hidden="true">
+              <defs><linearGradient id="silh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity=".35"/></linearGradient></defs>
+              <circle cx="100" cy="98" r="40" fill="url(#silh)"/>
+              <path d="M18 260c0-58 36-92 82-92s82 34 82 92z" fill="url(#silh)"/>
+            </svg>
+          </figure>
+        </div>
+      </div>
+
+      <div class="layer l-b1" data-depth="1.4"><div class="bubble" style="--s:150px;--d:8s"></div></div>
+      <div class="layer l-b2" data-depth="1.9"><div class="bubble" style="--s:72px;--d:6s"></div></div>
+      <div class="layer l-b3" data-depth="1.1"><div class="bubble" style="--s:34px;--d:5s"></div></div>
+      <div class="layer l-b4" data-depth="0.8"><div class="bubble" style="--s:56px;--d:9s"></div></div>
+
+      <div class="layer l-code" data-depth="1.0">
+        <div class="codecard glass glass--liquid">
+          <div class="codecard__bar"><span>&lt;/&gt; Code</span><i></i></div>
+<pre><span class="k">const</span> developer = {
+  name: <span class="s">"Alex"</span>,
+  skills: [<span class="s">"HTML"</span>, <span class="s">"CSS"</span>,
+    <span class="s">"JavaScript"</span>, <span class="s">"React"</span>],
+  passion: <span class="s">"Building things
+    for the web"</span>
+};</pre>
+        </div>
+      </div>
+
+      <div class="layer l-badge" data-depth="1.2">
+        <div class="badge glass"><i class="pulse pulse--green"></i>Available for work</div>
+      </div>
+
+      <div class="layer l-s1" data-depth="1.6"><svg class="spark" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/></svg></div>
+      <div class="layer l-s2" data-depth="0.9"><svg class="spark spark--sm" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/></svg></div>
+      <div class="layer l-s3" data-depth="1.3"><svg class="spark spark--sm" viewBox="0 0 24 24"><path d="M12 0c1 7 5 11 12 12-7 1-11 5-12 12-1-7-5-11-12-12 7-1 11-5 12-12z"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="container about__inner">
+    <div class="about__text reveal">
+      <span class="tag glass">About me</span>
+      <h2>I'm passionate about <em>creating</em> digital solutions</h2>
+      <p>With 4+ years of experience in web development, I help businesses and individuals bring their ideas to life through clean, efficient, and user-friendly code.</p>
+      <a href="#contact" class="btn btn--glass magnetic">Learn More About Me
+        <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.400 3.600-8 8-8s8 3.600 8 8"/></svg>
+      </a>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat glass glass--liquid">
+        <span class="stat__icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+        <strong><span data-count="4">4</span>+</strong><small>Years Experience</small>
+      </div>
+      <div class="stat glass glass--liquid">
+        <span class="stat__icon rose"><svg viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg></span>
+        <strong><span data-count="50">50</span>+</strong><small>Projects Completed</small>
+      </div>
+      <div class="stat glass glass--liquid">
+        <span class="stat__icon sky"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.500 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></span>
+        <strong><span data-count="30">30</span>+</strong><small>Happy Clients</small>
+      </div>
+      <div class="stat glass glass--liquid">
+        <span class="stat__icon peach"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
+        <strong><span data-count="100">100</span>%</strong><small>Client Satisfaction</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section class="skills" id="skills">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="tag glass">My skills</span>
+      <h2>Technologies I <em>master</em></h2>
+    </header>
+
+    <div class="skills__panel glass reveal">
+      <div class="skills__grid">
+        <div class="skill" data-level="95"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>HTML</span><em>95%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="85"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>React.js</span><em>85%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="80"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>Node.js</span><em>80%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="90"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>CSS</span><em>90%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="80"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>Next.js</span><em>80%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="90"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>Tailwind CSS</span><em>90%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="90"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>JavaScript</span><em>90%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="85"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>TypeScript</span><em>85%</em></div><div class="bar"><i></i></div></div></div>
+        <div class="skill" data-level="85"><span class="skill__ico"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt=""></span><div class="skill__body"><div class="skill__row"><span>Git</span><em>85%</em></div><div class="bar"><i></i></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="projects" id="projects">
+  <div class="container">
+    <header class="section-head reveal">
+      <span class="tag glass">Featured projects</span>
+      <h2>Some of my <em>recent work</em></h2>
+    </header>
+
+    <div class="projects__grid" id="projectGrid">
+      <!-- Swap each .card__thumb's SVG for <img src="assets/project-1.png" alt=""> when you have real screenshots. -->
+
+      <a class="card glass reveal" href="#" aria-label="E-Commerce Platform">
+        <div class="card__thumb">
+          <span class="card__num glass">01</span>
+          <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="a1bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe0cc"/><stop offset=".55" stop-color="#ffbfd9"/><stop offset="1" stop-color="#cdb4ff"/></linearGradient>
+              <radialGradient id="a1s" cx=".3" cy=".25" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".45" stop-color="#ffd6ea" stop-opacity=".45"/><stop offset="1" stop-color="#b79cff" stop-opacity=".6"/></radialGradient>
+              <filter id="a1b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+            </defs>
+            <rect width="300" height="180" fill="url(#a1bg)"/>
+            <g filter="url(#a1b)"><circle cx="50" cy="30" r="52" fill="#fff" opacity=".6"/><circle cx="262" cy="158" r="62" fill="#a78bff" opacity=".55"/><circle cx="240" cy="30" r="34" fill="#ffd19b" opacity=".7"/></g>
+            <circle cx="150" cy="92" r="58" fill="url(#a1s)" stroke="#fff" stroke-opacity=".85" stroke-width="1.5"/>
+            <ellipse cx="128" cy="66" rx="20" ry="11" fill="#fff" opacity=".7" transform="rotate(-30 128 66)"/>
+            <circle cx="150" cy="92" r="82" fill="none" stroke="#fff" stroke-opacity=".7" stroke-dasharray="2 7"/>
+            <rect x="200" y="112" width="76" height="34" rx="17" fill="#fff" fill-opacity=".4" stroke="#fff" stroke-opacity=".9"/>
+            <rect x="214" y="126" width="34" height="5" rx="2.500" fill="#7b6cf6" opacity=".7"/>
+            <circle cx="40" cy="128" r="14" fill="#fff" fill-opacity=".45" stroke="#fff" stroke-opacity=".9"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>E-Commerce Platform</h3>
+          <p>Full-stack e-commerce solution with modern UI/UX</p>
+          <span class="card__link">View Project <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card glass reveal" href="#" aria-label="Task Management App">
+        <div class="card__thumb">
+          <span class="card__num glass">02</span>
+          <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="a2bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#cfe6ff"/><stop offset=".6" stop-color="#d9d0ff"/><stop offset="1" stop-color="#ffd6ea"/></linearGradient>
+              <radialGradient id="a2c" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              <filter id="a2b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+            </defs>
+            <rect width="300" height="180" fill="url(#a2bg)"/>
+            <g filter="url(#a2b)"><circle cx="250" cy="30" r="46" fill="#9fd0ff" opacity=".8"/><circle cx="30" cy="160" r="52" fill="#ffb8d8" opacity=".7"/></g>
+            <circle cx="150" cy="90" r="80" fill="url(#a2c)" opacity=".7"/>
+            <g fill="none" stroke="#fff" stroke-opacity=".85">
+              <circle cx="150" cy="90" r="20"/><circle cx="150" cy="90" r="38" stroke-opacity=".7"/><circle cx="150" cy="90" r="58" stroke-opacity=".5"/><circle cx="150" cy="90" r="80" stroke-opacity=".3"/>
+            </g>
+            <rect x="96" y="60" width="108" height="60" rx="14" fill="#fff" fill-opacity=".42" stroke="#fff" stroke-opacity=".95"/>
+            <circle cx="116" cy="82" r="8" fill="#7b6cf6" opacity=".85"/>
+            <path d="m112.500 82 2.500 2.500 4.500-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="132" y="76" width="56" height="5" rx="2.500" fill="#6a63a6" opacity=".55"/>
+            <rect x="132" y="88" width="38" height="4" rx="2" fill="#6a63a6" opacity=".3"/>
+            <rect x="110" y="102" width="80" height="4" rx="2" fill="#fff" opacity=".8"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Task Management App</h3>
+          <p>Collaborative task management application</p>
+          <span class="card__link">View Project <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="card glass reveal" href="#" aria-label="Crypto Dashboard">
+        <div class="card__thumb">
+          <span class="card__num glass">03</span>
+          <svg viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="a3bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9f2e3"/><stop offset=".6" stop-color="#bfe3ff"/><stop offset="1" stop-color="#d8ccff"/></linearGradient>
+              <linearGradient id="a3w1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".2"/><stop offset=".5" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+              <linearGradient id="a3w2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8ee9c8" stop-opacity=".6"/><stop offset="1" stop-color="#9c8cff" stop-opacity=".6"/></linearGradient>
+              <filter id="a3b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="12"/></filter>
+            </defs>
+            <rect width="300" height="180" fill="url(#a3bg)"/>
+            <g filter="url(#a3b)"><circle cx="60" cy="40" r="44" fill="#fff" opacity=".7"/><circle cx="250" cy="150" r="56" fill="#a68cff" opacity=".5"/></g>
+            <path d="M0 120C50 80 90 150 150 108S250 70 300 100V180H0z" fill="url(#a3w2)"/>
+            <path d="M0 140C60 110 100 170 160 132S250 100 300 126V180H0z" fill="#fff" fill-opacity=".38"/>
+            <path d="M-4 118C50 80 90 150 150 108S250 70 304 100" fill="none" stroke="url(#a3w1)" stroke-width="2.500"/>
+            <rect x="26" y="26" width="92" height="46" rx="14" fill="#fff" fill-opacity=".42" stroke="#fff" stroke-opacity=".95"/>
+            <rect x="38" y="38" width="30" height="4" rx="2" fill="#5a6a8f" opacity=".45"/>
+            <rect x="38" y="50" width="52" height="8" rx="4" fill="#3fbf95" opacity=".8"/>
+            <circle cx="238" cy="52" r="20" fill="#fff" fill-opacity=".4" stroke="#fff" stroke-opacity=".95"/>
+            <circle cx="238" cy="52" r="10" fill="none" stroke="#7b6cf6" stroke-opacity=".7" stroke-width="3" stroke-dasharray="40 24"/>
+          </svg>
+        </div>
+        <div class="card__body">
+          <h3>Crypto Dashboard</h3>
+          <p>Real-time cryptocurrency tracking dashboard</p>
+          <span class="card__link">View Project <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+    </div>
+
+    <div class="pager" id="pager" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="container contact__inner">
+    <div class="contact__cta reveal">
+      <span class="tag glass">Let's work together</span>
+      <h2>Have a project <em>in mind?</em></h2>
+      <p>I'm always open to discussing new projects and opportunities. Let's create something amazing together!</p>
+      <a href="mailto:hello@alexdev.com" class="btn btn--primary magnetic">Get In Touch
+        <svg class="ico" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+    </div>
+
+    <figure class="quote glass glass--liquid reveal">
+      <svg class="quote__mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.300-3 4h3v7zm10 0v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.300-3 4h3v7z"/></svg>
+      <blockquote>Alex is an exceptional developer who delivers high-quality work on time. His attention to detail and problem-solving skills are outstanding.</blockquote>
+      <figcaption>
+        <span class="avatar" aria-hidden="true">SJ</span>
+        <span><strong>Sarah Johnson</strong><small>CEO, TechStart</small></span>
+      </figcaption>
+    </figure>
+
+    <div class="follow reveal">
+      <span class="eyebrow">Follow me</span>
+      <ul class="socials">
+        <li><a class="glass" href="#" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .5a11.500 11.500 0 0 0-3.640 22.410c.580.100.790-.250.790-.560v-2c-3.200.700-3.880-1.400-3.880-1.400-.520-1.340-1.280-1.700-1.280-1.700-1.040-.710.080-.700.080-.700 1.150.080 1.760 1.180 1.760 1.180 1.030 1.760 2.700 1.250 3.360.960.100-.750.400-1.250.730-1.540-2.550-.290-5.240-1.280-5.240-5.680 0-1.250.450-2.280 1.180-3.080-.120-.290-.510-1.460.110-3.040 0 0 .970-.310 3.170 1.180a11 11 0 0 1 5.780 0c2.200-1.490 3.170-1.180 3.170-1.180.620 1.580.230 2.750.110 3.040.740.800 1.180 1.830 1.180 3.080 0 4.410-2.700 5.380-5.260 5.660.410.360.780 1.060.780 2.140v3.170c0 .310.210.670.800.560A11.500 11.500 0 0 0 12 .5z"/></svg></a></li>
+        <li><a class="glass" href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.450 20.450h-3.550v-5.570c0-1.330-.020-3.040-1.850-3.040-1.850 0-2.140 1.450-2.140 2.940v5.670H9.350V9h3.410v1.560h.050c.480-.900 1.640-1.850 3.370-1.850 3.600 0 4.270 2.370 4.270 5.460zM5.340 7.430a2.060 2.060 0 1 1 0-4.130 2.060 2.060 0 0 1 0 4.130zM7.120 20.450H3.560V9h3.560zM22.220 0H1.770C.790 0 0 .770 0 1.720v20.560C0 23.230.790 24 1.770 24h20.450c.980 0 1.780-.770 1.780-1.720V1.720C24 .770 23.200 0 22.220 0z"/></svg></a></li>
+        <li><a class="glass" href="#" aria-label="Twitter / X"><svg viewBox="0 0 24 24"><path d="M18.240 2.250h3.310l-7.230 8.260 8.500 11.240H16.150l-5.210-6.820-5.970 6.820H1.660l7.730-8.840L1.260 2.250H8.100l4.710 6.230zm-1.160 17.520h1.830L7.080 4.130H5.120z"/></svg></a></li>
+        <li><a class="glass" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.500" cy="6.500" r="1" fill="currentColor" stroke="none"/></svg></a></li>
+      </ul>
+      <ul class="contact__list">
+        <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><a href="mailto:hello@alexdev.com">hello@alexdev.com</a></li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <span>© <span id="year">2026</span> Alex Developer. All rights reserved.</span>
+    <span>Made with <b class="heart">❤</b> by Alex</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

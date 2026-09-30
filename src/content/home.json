@@ -1,0 +1,48 @@
+{
+  "badge": "I'm a web developer",
+  "techIcons": [
+    {
+      "name": "HTML5",
+      "icon": "html5"
+    },
+    {
+      "name": "CSS3",
+      "icon": "css3"
+    },
+    {
+      "name": "JavaScript",
+      "icon": "javascript"
+    },
+    {
+      "name": "TypeScript",
+      "icon": "typescript"
+    },
+    {
+      "name": "React",
+      "icon": "react"
+    },
+    {
+      "name": "Node.js",
+      "icon": "nodejs"
+    },
+    {
+      "name": "Git",
+      "icon": "git"
+    }
+  ],
+  "secondaryButton": "Download CV",
+  "codePassion": "Building things for the web",
+  "codeSkills": [
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "React"
+  ],
+  "headline": "I build things for the web.",
+  "primaryButton": "View My Work",
+  "greeting": "Hi, I'm",
+  "availability": "Available for work",
+  "primaryLink": "#projects",
+  "lead": "I'm a passionate web developer specializing in building exceptional digital experiences with modern technologies.",
+  "techLabel": "Technologies I work with"
+}

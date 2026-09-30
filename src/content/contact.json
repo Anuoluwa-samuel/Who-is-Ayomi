@@ -1,0 +1,17 @@
+{
+  "tag": "Let's work together",
+  "heading": "Have a project *in mind?*",
+  "text": "I'm always open to discussing new projects and opportunities. Let's create something amazing together!",
+  "button": "Get In Touch",
+  "followLabel": "Follow me",
+  "quote": {
+    "text": "Ogunyemi Ayomide is an exceptional developer who delivers high-quality work on time. Their attention to detail and problem-solving skills are outstanding.",
+    "author": "Sarah Johnson",
+    "role": "CEO, TechStart"
+  },
+  "socials": [
+    { "network": "github", "url": "#" },
+    { "network": "linkedin", "url": "#" },
+    { "network": "x", "url": "#" }
+  ]
+}
