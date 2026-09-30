@@ -1,5 +1,6 @@
-data
-legacy
-.claude
-node_modules
+# anchored to the project root, so src/data/ (site code) is NOT excluded
+/data
+/legacy
+/.claude
+/node_modules
 *.log
