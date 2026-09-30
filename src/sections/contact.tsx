@@ -3,8 +3,10 @@ import { contact, profile, socials, testimonial } from "@/data/portfolio"
 import { Rich } from "@/components/site/rich"
 import { SOCIAL_LABELS, SocialIcon } from "@/components/site/social-icon"
 import { Reveal } from "@/components/site/reveal"
+import { useContactModal } from "@/components/site/contact-modal"
 
 export function Contact() {
+  const contactModal = useContactModal()
   return (
     <section className="contact" id="contact">
       <div className="page contact__inner">
@@ -12,7 +14,7 @@ export function Contact() {
           <span className="tag glass">{contact.tag}</span>
           <h2><Rich text={contact.heading} /></h2>
           <p>{contact.text}</p>
-          <a href={`mailto:${profile.email}`} className="btn btn--primary magnetic">
+          <a href={`mailto:${profile.email}`} className="btn btn--primary magnetic" onClick={(e) => { e.preventDefault(); contactModal.open() }}>
             {contact.button} <ArrowUpRight className="ico" />
           </a>
         </Reveal>

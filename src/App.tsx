@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { Background } from "@/components/site/background"
 import { Intro } from "@/components/site/intro"
+import { ContactModalProvider } from "@/components/site/contact-modal"
 import { Navbar } from "@/components/site/navbar"
 import { profile } from "@/data/portfolio"
 import { useAmbientEffects } from "@/hooks/use-ambient-effects"
@@ -25,7 +26,7 @@ export default function App() {
   }, [isPreview])
 
   return (
-    <>
+    <ContactModalProvider>
       <Background />
       {showIntro && <Intro onDone={onIntroDone} />}
       <Navbar />
@@ -37,6 +38,6 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </ContactModalProvider>
   )
 }

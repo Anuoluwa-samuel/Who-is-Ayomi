@@ -55,6 +55,30 @@ Notes
 - Vercel's free Hobby plan is meant for personal, non-commercial sites — fine for a portfolio.
 - The `data/` folder and `.env` are not deployed (`.vercelignore`).
 
+---
+
+## "Hire me" contact form → your inbox
+
+The **Hire me** button (and **Get In Touch**) opens a popup form. Messages are emailed to you through
+[Resend](https://resend.com) (free plan is plenty).
+
+1. Create a free Resend account and copy an **API key** (Resend → API Keys).
+2. Set these environment variables (Vercel: *Settings → Environment Variables*, then redeploy; locally: put them in your shell or `.env`):
+
+   | Variable | Value |
+   | --- | --- |
+   | `RESEND_API_KEY` | your Resend API key |
+   | `CONTACT_TO` | the inbox that should receive enquiries (defaults to the **Email** you set in `/admin → General`) |
+   | `CONTACT_FROM` | optional sender, e.g. `Portfolio <hello@yourdomain.com>` (needs a domain verified in Resend) |
+
+3. That's it. Replies go straight to the visitor (the message's *Reply-To* is their email).
+
+Notes
+- Without a verified domain, Resend only lets its shared test sender (`onboarding@resend.dev`) deliver to **your own Resend account email** — perfect for a personal inbox. Use that email as `CONTACT_TO`.
+- Until `RESEND_API_KEY` is set (or while the email is still the `you@example.com` placeholder), the popup **falls back to opening the visitor's email app** with the message pre-filled, so it always works.
+- Spam protection: hidden honeypot field, a rate limit of 4 messages / 10 min per visitor, input length limits, and same-site-only posting.
+- Set your real email in **/admin → General & loading screen → Email**; it's also what the fallback uses.
+
 ## Other hosts (VPS, Render, Railway, Fly…)
 
 ```bash

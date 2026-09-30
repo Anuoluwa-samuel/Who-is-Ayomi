@@ -155,6 +155,66 @@ await run("Vercel Blob storage (fake SDK)", createBlobStorage({ client: fake }),
   check("uploaded file kept its content type", [...fake.store.entries()].find(([p]) => p.startsWith("uploads/"))?.[1].contentType === "image/jpeg")
 })
 
+// ---- contact form (the "Hire me" popup)
+{
+  console.log("\nContact form → email")
+  const sent = []
+  let resendOk = true
+  const fakeFetch = async (url, init) => {
+    sent.push({ url, init, body: JSON.parse(init.body) })
+    return { ok: resendOk, status: resendOk ? 200 : 500, text: async () => "" }
+  }
+  const app = createApp({ storage: createFsStorage(path.join(ROOT, "data", `.selftest-contact-${process.pid}`)), isProd: true, fetchImpl: fakeFetch })
+  const server = app.listen(0)
+  const base = `http://127.0.0.1:${server.address().port}`
+  const post = async (body, headers = {}) => {
+    const res = await fetch(`${base}/api/contact`, { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body: JSON.stringify(body) })
+    return { status: res.status, data: await res.json() }
+  }
+  const good = { name: "Ada Client", email: "ada@client.io", type: "New website", message: "I need a portfolio for my studio, launching in June." }
+
+  delete process.env.RESEND_API_KEY
+  delete process.env.CONTACT_TO
+  let r = await post(good)
+  check("not configured → asks the browser to fall back to email", r.status === 503 && r.data.fallback === true)
+
+  process.env.RESEND_API_KEY = "re_test_key"
+  process.env.CONTACT_TO = "owner@mysite.dev"
+  check("empty name is rejected", (await post({ ...good, name: "" })).status === 400)
+  check("bad email is rejected", (await post({ ...good, email: "not-an-email" })).status === 400)
+  check("too-short message is rejected", (await post({ ...good, message: "hi" })).status === 400)
+  r = await post({ ...good, company: "Spam Inc" })
+  check("honeypot: bots get a fake success and nothing is sent", r.status === 200 && sent.length === 0)
+  r = await post(good, { Origin: "https://evil.example" })
+  check("other websites can't post to it", r.status === 403 && sent.length === 0)
+
+  r = await post({ ...good, message: 'Hello <script>alert(1)</script> & "quotes"\nsecond line' })
+  const mail = sent[0]?.body
+  check("valid message is sent through Resend", r.status === 200 && sent.length === 1 && sent[0].url === "https://api.resend.com/emails")
+  check("goes to the owner, replies go to the visitor", mail?.to?.[0] === "owner@mysite.dev" && mail?.reply_to === "ada@client.io", JSON.stringify(mail?.to))
+  check("subject names the visitor and project type", /Ada Client/.test(mail?.subject || "") && /New website/.test(mail?.subject || ""))
+  check("API key is sent as a bearer token", sent[0]?.init.headers.Authorization === "Bearer re_test_key")
+  check("message is HTML-escaped in the email", !/<script>/.test(mail?.html || "") && /&lt;script&gt;/.test(mail?.html || ""))
+
+  process.env.CONTACT_TO = "you@example.com"
+  r = await post(good)
+  check("placeholder recipient (@example.com) counts as not configured", r.status === 503 && r.data.fallback === true)
+  process.env.CONTACT_TO = "owner@mysite.dev"
+
+  resendOk = false
+  r = await post({ ...good, email: "grace@client.io" })
+  check("provider failure gives a friendly error", r.status === 502 && /email me directly/.test(r.data.error))
+  resendOk = true
+  r = await post({ ...good, email: "grace2@client.io" })
+  r = await post({ ...good, email: "grace3@client.io" })
+  check("rate limit stops floods", r.status === 429, String(r.status))
+
+  delete process.env.RESEND_API_KEY
+  delete process.env.CONTACT_TO
+  server.close()
+  fs.rmSync(path.join(ROOT, "data", `.selftest-contact-${process.pid}`), { recursive: true, force: true })
+}
+
 // ---- Blob store not connected yet (first deploy): site still loads, admin explains what to do
 {
   console.log("\nVercel Blob not connected yet")

@@ -1,0 +1,32 @@
+/* Styles for <TypewriterExample /> (src/components/ui/motion-typewriter.tsx).
+   Deliberately sets no font-size: the text inherits it from wherever it is placed. */
+
+.typewriter {
+  --hue-1: var(--blue, #00008b);          /* caret + text colour; follows the site accent */
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  color: var(--hue-1);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  white-space: pre-wrap;                  /* keep the space after a word while typing */
+}
+
+.typewriter-caret {
+  display: inline-block;
+  flex: none;
+  height: 1.05em;
+  margin-left: 4px;
+  border-radius: 1px;
+}
+
+/* demo wrapper (see src/demos/motion-typewriter-demo.tsx) */
+.motion-example {
+  min-height: 240px;
+  background: var(--background, #fff);
+}
+.motion-example .typewriter {
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
+}

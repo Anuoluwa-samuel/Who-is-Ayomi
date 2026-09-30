@@ -3,9 +3,11 @@ import { ArrowUpRight } from "lucide-react"
 import { navLinks, profile } from "@/data/portfolio"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "./theme-toggle"
+import { useContactModal } from "./contact-modal"
 
 /** Floating glass pill nav with a liquid highlight that follows the active / hovered link. */
 export function Navbar() {
+  const contact = useContactModal()
   const [active, setActive] = useState<string>(navLinks[0].id)
   const [hovered, setHovered] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
@@ -78,13 +80,17 @@ export function Navbar() {
             {label}
           </a>
         ))}
+        {/* the desktop Hire Me button is hidden on small screens, so the menu carries one too */}
+        <button type="button" className="btn btn--primary nav__hire" onClick={() => { setOpen(false); contact.open() }}>
+          Hire me <ArrowUpRight className="ico" />
+        </button>
       </nav>
 
       <div className="nav__actions">
         <ThemeToggle />
-        <a href="#contact" className="btn btn--primary btn--sm nav__cta magnetic">
+        <button type="button" className="btn btn--primary btn--sm nav__cta magnetic" onClick={contact.open}>
           Hire Me <ArrowUpRight className="ico" />
-        </a>
+        </button>
         <button
           className="nav__toggle"
           aria-label="Toggle menu"

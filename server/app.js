@@ -39,7 +39,7 @@ const readDefault = (id) => {
  * @param {import('./storage-fs.js').Storage} opts.storage   where content / uploads live
  * @param {boolean} [opts.isProd]                            production: no first-run password screen, Secure cookies
  */
-export function createApp({ storage, isProd = process.env.NODE_ENV === "production" }) {
+export function createApp({ storage, isProd = process.env.NODE_ENV === "production", fetchImpl = globalThis.fetch }) {
   const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
   // ---------------------------------------------------------------- content
@@ -135,14 +135,15 @@ export function createApp({ storage, isProd = process.env.NODE_ENV === "producti
   app.use(express.json({ limit: "1mb" }))
 
   // mutating requests must come from this site (extra CSRF protection on top of SameSite=Strict)
+  const sameOrigin = (req) => {
+    if (!req.headers.origin) return true
+    try {
+      const originHost = new URL(req.headers.origin).host
+      return [req.headers.host, req.headers["x-forwarded-host"]].filter(Boolean).includes(originHost)
+    } catch { return false }
+  }
   app.use("/api/admin", (req, res, next) => {
-    if (req.method !== "GET" && req.headers.origin) {
-      try {
-        const originHost = new URL(req.headers.origin).host
-        const hosts = [req.headers.host, req.headers["x-forwarded-host"]].filter(Boolean)
-        if (!hosts.includes(originHost)) return res.status(403).json({ error: "Bad origin" })
-      } catch { return res.status(403).json({ error: "Bad origin" }) }
-    }
+    if (req.method !== "GET" && !sameOrigin(req)) return res.status(403).json({ error: "Bad origin" })
     next()
   })
 
@@ -151,6 +152,63 @@ export function createApp({ storage, isProd = process.env.NODE_ENV === "producti
     // ?fresh=1 (admin preview) is never cached; visitors get a short CDN cache so the API isn't hit per page view
     res.setHeader("Cache-Control", isProd && !req.query.fresh ? "public, max-age=0, s-maxage=30, stale-while-revalidate=300" : "no-store")
     res.json(await readContent())
+  }))
+
+  // ---- public contact form (the "Hire me" popup) → emails the site owner via Resend
+  //   env: RESEND_API_KEY (required to send), CONTACT_TO (defaults to the email set in the admin),
+  //        CONTACT_FROM (defaults to Resend's shared test sender, which can deliver to your own Resend account email)
+  const contactHits = new Map()
+  const contactLimited = (ip) => {
+    const now = Date.now()
+    const hits = (contactHits.get(ip) || []).filter((t) => now - t < 10 * 60 * 1000)
+    contactHits.set(ip, hits)
+    if (hits.length >= 4) return true
+    hits.push(now)
+    return false
+  }
+  const clean = (v, max) => String(v ?? "").replace(/[\u0000-\u001f\u007f]+/g, " ").trim().slice(0, max)
+  const escapeHtml = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c])
+  const validEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) && v.length <= 200
+
+  app.post("/api/contact", wrap(async (req, res) => {
+    if (!sameOrigin(req)) return res.status(403).json({ error: "Bad origin" })
+    const body = req.body || {}
+    if (body.company) return res.json({ ok: true }) // honeypot: bots fill the hidden field; pretend it worked
+
+    const name = clean(body.name, 100)
+    const email = clean(body.email, 200)
+    const type = clean(body.type, 60) || "General enquiry"
+    const message = String(body.message ?? "").replace(/\r\n/g, "\n").replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, "").trim().slice(0, 5000)
+    if (!name) return res.status(400).json({ error: "Please tell me your name." })
+    if (!validEmail(email)) return res.status(400).json({ error: "That email address doesn't look right." })
+    if (message.length < 10) return res.status(400).json({ error: "Please add a few words about your project." })
+    if (contactLimited(req.ip)) return res.status(429).json({ error: "You've sent a few messages already — please try again later." })
+
+    const to = clean(process.env.CONTACT_TO || (await readContent()).site?.email, 200)
+    const key = process.env.RESEND_API_KEY
+    if (!key || !validEmail(to) || /@example\.com$/i.test(to)) {
+      // not configured: the site falls back to opening the visitor's email app
+      return res.status(503).json({ fallback: true, error: "Email sending isn't set up yet." })
+    }
+
+    const subject = `New enquiry from ${name} — ${type}`
+    const text = `Name: ${name}\nEmail: ${email}\nProject type: ${type}\n\n${message}\n`
+    const html = `<div style="font-family:system-ui,sans-serif;line-height:1.55;color:#0b0f24"><h2 style="margin:0 0 12px">New enquiry from your portfolio</h2><p style="margin:0"><b>Name:</b> ${escapeHtml(name)}<br><b>Email:</b> ${escapeHtml(email)}<br><b>Project type:</b> ${escapeHtml(type)}</p><hr style="border:none;border-top:1px solid #dde;margin:16px 0"><p style="white-space:pre-wrap;margin:0">${escapeHtml(message)}</p></div>`
+
+    let ok = false
+    try {
+      const r = await fetchImpl("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from: process.env.CONTACT_FROM || "Portfolio <onboarding@resend.dev>", to: [to], reply_to: email, subject, text, html }),
+      })
+      ok = r.ok
+      if (!r.ok) console.error("[contact] Resend refused the message:", r.status, await r.text().catch(() => ""))
+    } catch (err) {
+      console.error("[contact] couldn't reach Resend:", err.message)
+    }
+    if (!ok) return res.status(502).json({ error: "I couldn't send that just now — please email me directly." })
+    res.json({ ok: true })
   }))
 
   // ---- session
