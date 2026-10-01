@@ -9,7 +9,6 @@ import { Hero } from "@/sections/hero"
 import { About } from "@/sections/about"
 import { Skills } from "@/sections/skills"
 import { Projects } from "@/sections/projects"
-import { CaseStudy } from "@/sections/case-study"
 import { Contact } from "@/sections/contact"
 import { Footer } from "@/sections/footer"
 
@@ -37,7 +36,6 @@ export default function App() {
         <About />
         <Skills />
         <Projects />
-        <CaseStudy />
         <Contact />
       </main>
       <Footer />

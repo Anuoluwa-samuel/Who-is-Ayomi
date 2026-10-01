@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const ROOT = path.resolve(__dirname, "..")
 const DEFAULTS_DIR = path.join(ROOT, "src", "content")
 
-export const SECTIONS = ["site", "home", "about", "skills", "projects", "casestudy", "contact"]
+export const SECTIONS = ["site", "home", "about", "skills", "projects", "contact"]
 const SESSION_MS = 1000 * 60 * 60 * 12 // 12 hours
 export const UPLOAD_LIMIT = 4 * 1024 * 1024 // Vercel functions accept ~4.5 MB request bodies
 const UPLOAD_TYPES = {

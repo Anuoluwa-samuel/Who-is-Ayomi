@@ -11,10 +11,24 @@ const inputCls =
 const btnGhost =
   "inline-flex items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-sm font-medium text-neutral-700 transition hover:border-neutral-400 hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-40"
 
-function Label({ field, children }: { field: Field; children: ReactNode }) {
+function Counter({ value, range }: { value: string; range: [number, number] }) {
+  const n = value.length
+  const ok = n >= range[0] && n <= range[1]
+  return (
+    <span className={`ml-2 text-xs font-medium ${ok ? "text-emerald-600" : "text-amber-600"}`}>
+      {n} characters · aim for {range[0]}–{range[1]}
+    </span>
+  )
+}
+
+function Label({ field, value, children }: { field: Field; value?: unknown; children: ReactNode }) {
+  const range = "recommend" in field ? field.recommend : undefined
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm font-semibold text-neutral-800">{field.label}</span>
+      <span className="mb-1.5 block text-sm font-semibold text-neutral-800">
+        {field.label}
+        {range && <Counter value={typeof value === "string" ? value : ""} range={range} />}
+      </span>
       {children}
       {"hint" in field && field.hint ? <span className="mt-1.5 block text-[13px] leading-snug text-neutral-500">{field.hint}</span> : null}
     </label>
@@ -167,9 +181,9 @@ function ListField({ field, value, onChange }: { field: Extract<Field, { kind: "
 export function FieldView({ field, value, onChange }: { field: Field; value: unknown; onChange: (v: unknown) => void }) {
   switch (field.kind) {
     case "string":
-      return <Label field={field}><input className={inputCls} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} /></Label>
+      return <Label field={field} value={value}><input className={inputCls} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} /></Label>
     case "text":
-      return <Label field={field}><textarea className={`${inputCls} min-h-[96px] resize-y leading-relaxed`} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} /></Label>
+      return <Label field={field} value={value}><textarea className={`${inputCls} min-h-[96px] resize-y leading-relaxed`} value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value)} /></Label>
     case "number":
       return (
         <Label field={field}>

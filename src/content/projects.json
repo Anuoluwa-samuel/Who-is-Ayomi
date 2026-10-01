@@ -5,9 +5,62 @@
   "items": [
     {
       "title": "Student Dropout Early-Warning System",
-      "blurb": "ML model and Flask app that flags dropout risk, trained on survey data from 35 southwest Nigerian universities.",
-      "link": "#case-study",
-      "art": "aurora"
+      "blurb": "ML early-warning system for student dropout: 94.1% accuracy, 98% recall, deployed as a Flask web app.",
+      "link": "",
+      "art": "aurora",
+      "details": {
+        "summary": "I built a machine-learning early-warning system that predicts which students are at risk of dropping out, using survey data from 35 universities across southwest Nigeria, and deployed it as a Flask web app.",
+        "metrics": [
+          {
+            "value": "94.1%",
+            "label": "Accuracy (Random Forest)"
+          },
+          {
+            "value": "98%",
+            "label": "Recall — at-risk students caught"
+          },
+          {
+            "value": "35",
+            "label": "Universities in the survey"
+          },
+          {
+            "value": "4",
+            "label": "Models compared"
+          }
+        ],
+        "blocks": [
+          {
+            "title": "The problem",
+            "text": "Flag students at risk of dropping out early enough for support to reach them, across universities in southwest Nigeria."
+          },
+          {
+            "title": "The data",
+            "text": "Survey data gathered from 35 institutions in southwest Nigeria."
+          },
+          {
+            "title": "The approach",
+            "text": "I compared four models: a Logistic Regression baseline, Random Forest, XGBoost and a Soft Voting Ensemble."
+          },
+          {
+            "title": "The result",
+            "text": "Random Forest performed best with 94.1% accuracy and 98% recall, so it catches almost every at-risk student. The model is served through a Flask web app."
+          }
+        ],
+        "listTitle": "Models compared",
+        "list": [
+          "Logistic Regression (baseline)",
+          "Random Forest (best)",
+          "XGBoost",
+          "Soft Voting Ensemble"
+        ],
+        "stack": [
+          "Python",
+          "Flask",
+          "XGBoost"
+        ],
+        "repoUrl": "",
+        "liveUrl": ""
+      }
     },
     {
       "title": "E-Commerce Platform",

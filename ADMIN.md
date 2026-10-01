@@ -103,6 +103,12 @@ When you add a custom domain, set `SITE_URL=https://your-domain` in Vercel (or j
 [Post Inspector](https://www.linkedin.com/post-inspector/), and add the site + `sitemap.xml` in
 [Google Search Console](https://search.google.com/search-console). Social apps cache previews, so re-scrape in Post Inspector after changes.
 
+**Lengths that preview well** (the admin shows a live counter next to each): *Page title* 50–60 characters,
+*Google description* 120–155, *Link-preview description* 80–125 (WhatsApp/LinkedIn/X; falls back to the Google description).
+
+**Google Search Console ownership:** choose *URL prefix* → `https://whoisayomi.vercel.app/` → *HTML tag*, paste the code
+(or the whole `<meta>` tag) into */admin → General → Google Search Console code*, save, wait for the rebuild, then click *Verify*.
+
 ## Other hosts (VPS, Render, Railway, Fly…)
 
 ```bash

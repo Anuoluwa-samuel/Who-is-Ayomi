@@ -8,7 +8,6 @@ import aboutDefault from "@/content/about.json"
 import skillsDefault from "@/content/skills.json"
 import projectsDefault from "@/content/projects.json"
 import contactDefault from "@/content/contact.json"
-import caseStudyDefault from "@/content/casestudy.json"
 
 // main.tsx fetches /api/content before loading the app and stores it here.
 // If there is no server (static hosting) the bundled defaults above are used.
@@ -21,7 +20,6 @@ const aboutJson = merge(aboutDefault, "about")
 const skillsJson = merge(skillsDefault, "skills")
 const projectsJson = merge(projectsDefault, "projects")
 const contactJson = merge(contactDefault, "contact")
-const caseStudyJson = merge(caseStudyDefault, "casestudy")
 
 const iconUrl = (slug: string) =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${slug}/${slug}-original.svg`
@@ -53,7 +51,6 @@ export const navLinks = [
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
-  { id: "case-study", label: "Case study" },
   { id: "contact", label: "Contact" },
 ] as const
 
@@ -76,17 +73,33 @@ export const projectsSection = {
   linkLabel: projectsJson.linkLabel,
 }
 export type ProjectArt = "bloom" | "ripple" | "aurora"
+export type ProjectDetails = {
+  summary?: string
+  metrics?: { value: string; label: string }[]
+  blocks?: { title: string; text: string }[]
+  listTitle?: string
+  list?: string[]
+  stack?: string[]
+  repoUrl?: string
+  liveUrl?: string
+}
+const slugify = (v: string) => v.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")
+const hasDetails = (d?: ProjectDetails) => Boolean(d && (d.summary?.trim() || d.blocks?.some((b) => b.title || b.text)))
+
 export const projects = projectsJson.items.map((p, i) => {
   const arts: ProjectArt[] = ["bloom", "ripple", "aurora"]
-  const item = p as { title: string; blurb: string; link?: string; image?: string; art?: string }
+  const item = p as { title: string; blurb: string; link?: string; image?: string; art?: string; details?: ProjectDetails }
   return {
     title: item.title,
+    slug: slugify(item.title) || `project-${i + 1}`,
     blurb: item.blurb,
     href: item.link || "#",
     image: item.image || "",
     art: (arts.includes(item.art as ProjectArt) ? item.art : arts[i % arts.length]) as ProjectArt,
+    details: hasDetails(item.details) ? item.details : undefined,
   }
 })
+export type Project = (typeof projects)[number]
 
 export const contact = contactJson
 export const testimonial = {
@@ -101,5 +114,3 @@ export const testimonial = {
     .join(""),
 }
 export const socials = contactJson.socials
-
-export const caseStudy = caseStudyJson

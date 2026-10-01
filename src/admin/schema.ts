@@ -4,7 +4,7 @@
 export type Option = { label: string; value: string }
 
 export type Field =
-  | { kind: "string" | "text"; name: string; label: string; hint?: string }
+  | { kind: "string" | "text"; name: string; label: string; hint?: string; /** recommended length [min, max] → live counter */ recommend?: [number, number] }
   | { kind: "number"; name: string; label: string; hint?: string; min?: number; max?: number }
   | { kind: "select"; name: string; label: string; options: Option[]; hint?: string }
   | { kind: "image" | "file"; name: string; label: string; hint?: string }
@@ -33,13 +33,15 @@ export const sections: Section[] = [
     label: "General & loading screen",
     blurb: "Your name, contact details, photo and the big loading screen.",
     fields: [
-      { kind: "string", name: "name", label: "Full name", hint: "Shown in the nav bar, hero headline, code card and footer." },
+      { kind: "string", name: "name", label: "Full name", hint: "Shown in the nav bar, hero headline, footer and link previews." },
       { kind: "string", name: "initials", label: "Initials", hint: "Shown instead of the name on very small screens." },
       { kind: "string", name: "jobTitle", label: "Job title", hint: "Used in link previews and Google's info about you, e.g. Web Developer." },
       { kind: "string", name: "credential", label: "Short credential", hint: "Shown on the link-preview image, e.g. Computer Science graduate, FUTA." },
       { kind: "string", name: "school", label: "University (full name)", hint: "Tells Google where you studied." },
-      { kind: "string", name: "title", label: "Browser tab title", hint: "Also the title of link previews and Google results." },
-      { kind: "text", name: "description", label: "Search-engine description", hint: "Shown under your name in Google and in link previews. About 150 characters works best." },
+      { kind: "string", name: "title", label: "Page title", hint: "The title in Google results, the browser tab and link previews. Include your name and what you do.", recommend: [50, 60] },
+      { kind: "text", name: "description", label: "Google description", hint: "Shown under your title in Google results.", recommend: [120, 155] },
+      { kind: "text", name: "shareDescription", label: "Link-preview description", hint: "Shown when your link is shared on WhatsApp, LinkedIn, X… Keep it short so phones don't cut it off.", recommend: [80, 125] },
+      { kind: "string", name: "googleVerification", label: "Google Search Console code", hint: "Paste only the content=\"…\" value from Google's HTML-tag verification. Leave empty if not needed." },
       { kind: "string", name: "email", label: "Email" },
       { kind: "string", name: "phone", label: "Phone" },
       { kind: "image", name: "photo", label: "Your photo", hint: "Used on the loading screen and in the hero. Portrait photos work best." },
@@ -139,7 +141,7 @@ export const sections: Section[] = [
         fields: [
           { kind: "string", name: "title", label: "Title" },
           { kind: "text", name: "blurb", label: "Description" },
-          { kind: "string", name: "link", label: "Link", hint: "Live site or repository address." },
+          { kind: "string", name: "link", label: "Link", hint: "Live site or repository address. Ignored when the case study below is filled in (the card opens it instead)." },
           { kind: "image", name: "image", label: "Screenshot", hint: "Leave empty to use the painted artwork below." },
           {
             kind: "select",
@@ -151,46 +153,46 @@ export const sections: Section[] = [
               { label: "Aurora (dark waves)", value: "aurora" },
             ],
           },
+          {
+            kind: "object",
+            name: "details",
+            label: "Case study (optional)",
+            hint: "Fill in a summary or the story and the card opens this as a popup.",
+            fields: [
+              { kind: "text", name: "summary", label: "Summary" },
+              {
+                kind: "list",
+                name: "metrics",
+                label: "Key numbers",
+                max: 6,
+                addLabel: "Add number",
+                title: (i) => `${str(i.value)} ${str(i.label)}`.trim() || "New number",
+                fields: [
+                  { kind: "string", name: "value", label: "Value", hint: "e.g. 94.1%" },
+                  { kind: "string", name: "label", label: "Label" },
+                ],
+              },
+              {
+                kind: "list",
+                name: "blocks",
+                label: "Story",
+                max: 6,
+                addLabel: "Add block",
+                title: (i) => str(i.title) || "New block",
+                fields: [
+                  { kind: "string", name: "title", label: "Title" },
+                  { kind: "text", name: "text", label: "Text" },
+                ],
+              },
+              { kind: "string", name: "listTitle", label: "List heading", hint: "e.g. Models compared, Features" },
+              { kind: "strings", name: "list", label: "List", addLabel: "Add item", hint: "Add (best) after an item to highlight it." },
+              { kind: "strings", name: "stack", label: "Tools used", addLabel: "Add tool" },
+              { kind: "string", name: "liveUrl", label: "Live app link", hint: "Leave empty to hide the button." },
+              { kind: "string", name: "repoUrl", label: "Code link", hint: "Leave empty to hide the button." },
+            ],
+          },
         ],
       },
-    ],
-  },
-  {
-    id: "casestudy",
-    label: "Case study",
-    blurb: "A deeper look at one project: problem, data, approach and result.",
-    fields: [
-      { kind: "string", name: "tag", label: "Small label" },
-      { kind: "string", name: "heading", label: "Heading", hint: "Use *stars* around the accent words." },
-      { kind: "text", name: "summary", label: "Summary" },
-      {
-        kind: "list",
-        name: "metrics",
-        label: "Key numbers",
-        max: 6,
-        addLabel: "Add number",
-        title: (i) => `${str(i.value)} ${str(i.label)}`.trim() || "New number",
-        fields: [
-          { kind: "string", name: "value", label: "Value", hint: "e.g. 94.1%" },
-          { kind: "string", name: "label", label: "Label" },
-        ],
-      },
-      {
-        kind: "list",
-        name: "blocks",
-        label: "Story",
-        max: 6,
-        addLabel: "Add block",
-        title: (i) => str(i.title) || "New block",
-        fields: [
-          { kind: "string", name: "title", label: "Title" },
-          { kind: "text", name: "text", label: "Text" },
-        ],
-      },
-      { kind: "strings", name: "models", label: "Models compared", addLabel: "Add model" },
-      { kind: "strings", name: "stack", label: "Tools used", addLabel: "Add tool" },
-      { kind: "string", name: "repoUrl", label: "Code link", hint: "GitHub repository address. Leave empty to hide the button." },
-      { kind: "string", name: "liveUrl", label: "Live app link", hint: "Leave empty to hide the button." },
     ],
   },
   {

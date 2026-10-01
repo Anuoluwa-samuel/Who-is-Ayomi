@@ -47,6 +47,8 @@ const name = site.name || "Portfolio"
 const jobTitle = site.jobTitle || "Web Developer"
 const title = site.title || `${name} — ${jobTitle}`
 const description = site.description || ""
+const googleCode = String(site.googleVerification ?? "").trim().replace(/^.*content=["']?([^"'\s>]+).*$/s, "$1")
+const shareDescription = site.shareDescription || description // link previews show ~125 characters
 
 // ---- 2. render the page
 globalThis.__CONTENT__ = content
@@ -92,11 +94,13 @@ const website = { "@context": "https://schema.org", "@type": "WebSite", name, ur
 
 const headTags = [
   `<link rel="canonical" href="${esc(SITE_URL)}/" />`,
+  // Google Search Console ownership check (paste either the code or the whole <meta> tag in /admin)
+  ...(googleCode ? [`<meta name="google-site-verification" content="${esc(googleCode)}" />`] : []),
   `<meta name="author" content="${esc(name)}" />`,
   `<meta property="og:type" content="website" />`,
   `<meta property="og:site_name" content="${esc(name)}" />`,
   `<meta property="og:title" content="${esc(title)}" />`,
-  `<meta property="og:description" content="${esc(description)}" />`,
+  `<meta property="og:description" content="${esc(shareDescription)}" />`,
   `<meta property="og:url" content="${esc(SITE_URL)}/" />`,
   ...(ogImage
     ? [
@@ -109,7 +113,7 @@ const headTags = [
     : []),
   `<meta name="twitter:card" content="${ogImage ? "summary_large_image" : "summary"}" />`,
   `<meta name="twitter:title" content="${esc(title)}" />`,
-  `<meta name="twitter:description" content="${esc(description)}" />`,
+  `<meta name="twitter:description" content="${esc(shareDescription)}" />`,
   ...(ogImage ? [`<meta name="twitter:image" content="${esc(ogImage)}" />`, `<meta name="twitter:image:alt" content="${esc(`${name} — ${jobTitle}`)}" />`] : []),
   `<script type="application/ld+json">${jsonForScript([person, website])}</script>`,
 ].join("\n    ")

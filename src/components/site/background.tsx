@@ -1,14 +1,14 @@
 import { cssVars } from "./reveal"
 
 const blobs = [
-  { w: "62vmax", c: "#b9c6ff", pos: { left: "-18%", top: "-22%" }, t: "26s", x: "8vmax", y: "6vmax" },
-  { w: "54vmax", c: "#dbe2ff", pos: { right: "-20%", top: "-10%" }, t: "31s", x: "-7vmax", y: "9vmax" },
-  { w: "48vmax", c: "#c5d8ff", pos: { left: "-14%", top: "34%" }, t: "29s", x: "9vmax", y: "-6vmax" },
-  { w: "58vmax", c: "#d4dcff", pos: { right: "-22%", top: "52%" }, t: "34s", x: "-8vmax", y: "-7vmax" },
-  { w: "46vmax", c: "#dfe6ff", pos: { left: "8%", bottom: "-24%" }, t: "28s", x: "6vmax", y: "-8vmax" },
+  { w: "62vmax", c: "#b9c6ff", pos: { left: "-18%", top: "-22%" } },
+  { w: "54vmax", c: "#dbe2ff", pos: { right: "-20%", top: "-10%" } },
+  { w: "48vmax", c: "#c5d8ff", pos: { left: "-14%", top: "34%" } },
+  { w: "58vmax", c: "#d4dcff", pos: { right: "-22%", top: "52%" } },
+  { w: "46vmax", c: "#dfe6ff", pos: { left: "8%", bottom: "-24%" } },
 ]
 
-/** Fixed pastel aurora + cursor light, plus the SVG map that powers Chromium's liquid refraction. */
+/** Fixed (static) pastel aurora + cursor light, plus the SVG map that powers Chromium's liquid refraction. */
 export function Background() {
   return (
     <>
@@ -25,7 +25,7 @@ export function Background() {
           <i
             key={i}
             className="blob"
-            style={{ ...b.pos, ...cssVars({ "--w": b.w, "--c": b.c, "--t": b.t, "--x": b.x, "--y": b.y }) }}
+            style={{ ...b.pos, ...cssVars({ "--w": b.w, "--c": b.c }) }}
           />
         ))}
       </div>

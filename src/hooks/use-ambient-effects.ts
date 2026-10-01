@@ -3,7 +3,7 @@ import { useEffect } from "react"
 /**
  * Pointer-driven polish for the whole page:
  *  - hero layers drift at different depths (parallax)
- *  - the aurora background and a soft cursor light follow the pointer / scroll
+ *  - a soft cursor light follows the pointer
  *  - glass surfaces get a specular highlight under the cursor
  *  - `.magnetic` buttons lean toward the cursor
  * Also flags Chromium so the refractive `.glass--liquid` layer only runs where supported.
@@ -21,12 +21,10 @@ export function useAmbientEffects() {
     if (chromium) root.classList.add("refract")
 
     const layers = [...document.querySelectorAll<HTMLElement>(".layer[data-depth]")]
-    const aurora = document.querySelector<HTMLElement>(".aurora")
     const glow = document.getElementById("cursorGlow")
 
     let tx = 0, ty = 0, cx = 0, cy = 0
     let gx = innerWidth / 2, gy = innerHeight / 2, gcx = gx, gcy = gy
-    let lastScroll = -1
     let raf = 0
 
     const frame = () => {
@@ -39,25 +37,16 @@ export function useAmbientEffects() {
         const d = Number(l.dataset.depth)
         l.style.transform = `translate3d(${(cx * d * -16).toFixed(2)}px, ${(cy * d * -12).toFixed(2)}px, 0)`
       }
-      if (aurora) aurora.style.transform = `translate3d(${(cx * -18).toFixed(2)}px, ${(-scrollY * 0.05 + cy * -12).toFixed(2)}px, 0)`
       if (glow) glow.style.transform = `translate3d(${gcx.toFixed(1)}px, ${gcy.toFixed(1)}px, 0)`
 
       const settled =
         Math.abs(tx - cx) < 0.001 && Math.abs(ty - cy) < 0.001 &&
-        Math.abs(gx - gcx) < 0.5 && Math.abs(gy - gcy) < 0.5 &&
-        scrollY === lastScroll
-      lastScroll = scrollY
+        Math.abs(gx - gcx) < 0.5 && Math.abs(gy - gcy) < 0.5
       raf = settled ? 0 : requestAnimationFrame(frame)
     }
     const wake = () => { if (!raf) raf = requestAnimationFrame(frame) }
 
     const cleanups: Array<() => void> = []
-
-    if (!reduceMotion) {
-      addEventListener("scroll", wake, { passive: true })
-      cleanups.push(() => removeEventListener("scroll", wake))
-      wake()
-    }
 
     if (finePointer) {
       const onMove = (e: PointerEvent) => {

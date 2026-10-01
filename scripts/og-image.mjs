@@ -47,7 +47,7 @@ const el = (type, style, ...children) => ({
 })
 
 /** @returns {Promise<Buffer>} PNG bytes */
-export async function renderOgImage({ name, jobTitle, credential, headline, host, photo, publicDir }) {
+export async function renderOgImage({ name, jobTitle, credential, headline, host, photo, publicDir, cta = "View my work" }) {
   const photoUri = await loadPhoto(photo, publicDir)
   const textWidth = photoUri ? 640 : 1000
   // Fraunces italic averages ~0.47em per character: size the name to fit its column
@@ -79,11 +79,28 @@ export async function renderOgImage({ name, jobTitle, credential, headline, host
       el("div", { display: "flex", fontFamily: "Fraunces", fontStyle: "italic", fontSize: nameSize, lineHeight: 1.05, letterSpacing: -1, color: "#00008B" }, name),
       headline ? el("div", { display: "flex", marginTop: 14, fontFamily: "Fraunces", fontSize: 36, color: "#0b0f24" }, headline) : el("div", { display: "flex" }),
       credential ? el("div", { display: "flex", marginTop: 12, fontSize: 27, color: "#46507a" }, credential) : el("div", { display: "flex" }),
+      // call to action + address
       el(
         "div",
-        { display: "flex", alignItems: "center", marginTop: 46, fontSize: 24, fontWeight: 600, color: "#00008B" },
-        el("div", { width: 12, height: 12, borderRadius: 9999, backgroundColor: "#00008B", marginRight: 12 }),
-        host,
+        { display: "flex", alignItems: "center", marginTop: 40 },
+        el(
+          "div",
+          {
+            display: "flex", alignItems: "center", padding: "16px 30px", borderRadius: 999,
+            backgroundImage: "linear-gradient(135deg, #2b2bc8 0%, #00008B 60%, #00006b 100%)",
+            boxShadow: "0 14px 30px rgba(0, 0, 139, 0.35)", color: "#ffffff", fontSize: 26, fontWeight: 600,
+          },
+          cta,
+          // arrow drawn as a shape (the bundled font subset has no → glyph)
+          {
+            type: "svg",
+            props: {
+              width: 26, height: 26, viewBox: "0 0 24 24", style: { marginLeft: 12 },
+              children: { type: "path", props: { d: "M5 12h14M13 6l6 6-6 6", fill: "none", stroke: "#ffffff", strokeWidth: 2.4, strokeLinecap: "round", strokeLinejoin: "round" } },
+            },
+          },
+        ),
+        el("div", { display: "flex", marginLeft: 22, fontSize: 22, fontWeight: 600, color: "#46507a" }, host),
       ),
     ),
     // photo in the same arch shape as the hero

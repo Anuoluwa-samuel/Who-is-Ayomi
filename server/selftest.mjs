@@ -238,7 +238,7 @@ await run("Vercel Blob storage (fake SDK)", createBlobStorage({ client: fake }),
   r = await fetch(`${base}/api/admin/restore/site`, { method: "POST", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify({ version: versions[0] }) }).then((x) => x.json())
   check("restoring a version also rebuilds", r.ok === true && r.rebuilding === true && calls.length === 2)
   const pub = await fetch(`${base}/api/content`).then((x) => x.json())
-  check("the case study is part of the public content", Array.isArray(pub.casestudy?.metrics) && pub.casestudy.metrics.length > 0)
+  check("the project case study is part of the public content", pub.projects?.items?.some((p) => p.details?.metrics?.length > 0))
   delete process.env.VERCEL_DEPLOY_HOOK_URL
   server.close()
   fs.rmSync(dir, { recursive: true, force: true })
