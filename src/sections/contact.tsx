@@ -19,16 +19,19 @@ export function Contact() {
           </a>
         </Reveal>
 
-        <Reveal as="figure" className="quote glass glass--liquid">
-          <svg className="quote__mark" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 18v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.3-3 4h3v7zm10 0v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.3-3 4h3v7z" />
-          </svg>
-          <blockquote>{testimonial.quote}</blockquote>
-          <figcaption>
-            <span className="avatar" aria-hidden="true">{testimonial.initials}</span>
-            <span><strong>{testimonial.author}</strong><small>{testimonial.role}</small></span>
-          </figcaption>
-        </Reveal>
+        {/* shown only when there's a real quote (add it in /admin → Contact & testimonial) */}
+        {testimonial.quote && (
+          <Reveal as="figure" className="quote glass glass--liquid">
+            <svg className="quote__mark" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 18v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.3-3 4h3v7zm10 0v-5c0-4 2-7 6-8l1 2c-2 .8-3 2.3-3 4h3v7z" />
+            </svg>
+            <blockquote>{testimonial.quote}</blockquote>
+            <figcaption>
+              <span className="avatar" aria-hidden="true">{testimonial.initials}</span>
+              <span><strong>{testimonial.author}</strong><small>{testimonial.role}</small></span>
+            </figcaption>
+          </Reveal>
+        )}
 
         <Reveal className="follow">
           <span className="eyebrow">{contact.followLabel}</span>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ogunyemi Ayomide — Web Developer Portfolio</title>
-    <meta name="description" content="Web developer building dreamy, exceptional digital experiences with modern technologies." />
+    <title>Ayomide Ogunyemi — Web Developer</title>
+    <meta name="description" content="Web developer and CS graduate (FUTA) building fast React interfaces and ML-backed web apps. Projects, an ML case study, and contact." />
     <meta name="theme-color" content="#f4f6ff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,9 +19,10 @@
       try { document.documentElement.dataset.theme = localStorage.getItem("theme") === "dark" ? "dark" : "light"; }
       catch (e) { document.documentElement.dataset.theme = "light"; }
     </script>
+    <!--app-head-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

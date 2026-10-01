@@ -29,7 +29,7 @@ export const api = {
   setup: (password: string) => request<{ ok: true }>("/api/admin/setup", json("POST", { password })),
   logout: () => request<{ ok: true }>("/api/admin/logout", json("POST")),
   content: () => request<Content>("/api/content?fresh=1"),
-  save: (section: string, data: unknown) => request<{ ok: true }>(`/api/admin/content/${section}`, json("PUT", data)),
+  save: (section: string, data: unknown) => request<{ ok: true; rebuilding?: boolean }>(`/api/admin/content/${section}`, json("PUT", data)),
   history: (section: string) => request<{ versions: number[] }>(`/api/admin/history/${section}`),
   restore: (section: string, version: number) =>
     request<{ ok: true; data: Record<string, unknown> }>(`/api/admin/restore/${section}`, json("POST", { version })),

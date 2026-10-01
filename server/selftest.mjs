@@ -215,6 +215,35 @@ await run("Vercel Blob storage (fake SDK)", createBlobStorage({ client: fake }),
   fs.rmSync(path.join(ROOT, "data", `.selftest-contact-${process.pid}`), { recursive: true, force: true })
 }
 
+// ---- rebuild after saving (Vercel Deploy Hook)
+{
+  console.log("\nRebuild after saving")
+  const calls = []
+  const fakeFetch = async (url, init) => { calls.push({ url, method: init?.method }); return { ok: true, status: 201, text: async () => "" } }
+  const dir = path.join(ROOT, "data", `.selftest-hook-${process.pid}`)
+  const app = createApp({ storage: createFsStorage(dir), isProd: true, fetchImpl: fakeFetch })
+  const server = app.listen(0)
+  const base = `http://127.0.0.1:${server.address().port}`
+  const login = await fetch(`${base}/api/admin/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: PASSWORD }) })
+  const cookie = login.headers.get("set-cookie").split(";")[0]
+  const save = () => fetch(`${base}/api/admin/content/site`, { method: "PUT", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify({ name: "Test" }) }).then((r) => r.json())
+
+  delete process.env.VERCEL_DEPLOY_HOOK_URL
+  let r = await save()
+  check("without a hook: saves, no rebuild", r.ok === true && r.rebuilding === false && calls.length === 0)
+  process.env.VERCEL_DEPLOY_HOOK_URL = "https://api.vercel.com/v1/integrations/deploy/test-hook"
+  r = await save()
+  check("with a hook: every save triggers a rebuild", r.rebuilding === true && calls.length === 1 && calls[0].method === "POST" && calls[0].url.includes("deploy"))
+  const versions = (await fetch(`${base}/api/admin/history/site`, { headers: { Cookie: cookie } }).then((x) => x.json())).versions
+  r = await fetch(`${base}/api/admin/restore/site`, { method: "POST", headers: { "Content-Type": "application/json", Cookie: cookie }, body: JSON.stringify({ version: versions[0] }) }).then((x) => x.json())
+  check("restoring a version also rebuilds", r.ok === true && r.rebuilding === true && calls.length === 2)
+  const pub = await fetch(`${base}/api/content`).then((x) => x.json())
+  check("the case study is part of the public content", Array.isArray(pub.casestudy?.metrics) && pub.casestudy.metrics.length > 0)
+  delete process.env.VERCEL_DEPLOY_HOOK_URL
+  server.close()
+  fs.rmSync(dir, { recursive: true, force: true })
+}
+
 // ---- Blob store not connected yet (first deploy): site still loads, admin explains what to do
 {
   console.log("\nVercel Blob not connected yet")

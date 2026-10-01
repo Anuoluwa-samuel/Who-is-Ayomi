@@ -5,13 +5,18 @@
   "button": "Get In Touch",
   "followLabel": "Follow me",
   "quote": {
-    "text": "Ogunyemi Ayomide is an exceptional developer who delivers high-quality work on time. Their attention to detail and problem-solving skills are outstanding.",
-    "author": "Sarah Johnson",
-    "role": "CEO, TechStart"
+    "text": "",
+    "author": "Akindele Adeleye",
+    "role": "CEO, Yit0 shot it"
   },
   "socials": [
-    { "network": "github", "url": "#" },
-    { "network": "linkedin", "url": "#" },
-    { "network": "x", "url": "#" }
+    {
+      "network": "github",
+      "url": "https://github.com/Anuoluwa-samuel"
+    },
+    {
+      "network": "linkedin",
+      "url": "https://www.linkedin.com/in/ayomide-ogunyemi-0a7638234/"
+    }
   ]
 }

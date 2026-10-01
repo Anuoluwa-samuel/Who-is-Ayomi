@@ -79,6 +79,30 @@ Notes
 - Spam protection: hidden honeypot field, a rate limit of 4 messages / 10 min per visitor, input length limits, and same-site-only posting.
 - Set your real email in **/admin → General & loading screen → Email**; it's also what the fallback uses.
 
+---
+
+## Google & link previews (prerendering)
+
+Every build turns the home page into real HTML (`scripts/prerender.mjs`), so Google, WhatsApp, LinkedIn, X and Slack
+see your name, text, case study and a preview card without running JavaScript. The build also writes:
+
+- `og-image.png` — the 1200×630 preview card (your name, job title, headline, credential and photo, drawn from your content)
+- title, description, Open Graph + Twitter tags, canonical URL
+- Google structured data (Person: name, job title, university, GitHub/LinkedIn), `robots.txt`, `sitemap.xml`
+
+**Keep it in sync with the admin (one-time setup on Vercel):**
+1. Vercel → your project → *Settings → Git → Deploy Hooks* → create a hook (any name, branch `main`) and copy its URL.
+2. *Settings → Environment Variables* → add `VERCEL_DEPLOY_HOOK_URL` = that URL → redeploy.
+3. From then on every **Save** in `/admin` also rebuilds the site; Google and link previews catch up in about a minute.
+   (Visitors already see your edits immediately either way.)
+
+**Address used in tags and the sitemap:** your Vercel production domain (now `whoisayomi.vercel.app`).
+When you add a custom domain, set `SITE_URL=https://your-domain` in Vercel (or just make it the production domain) and redeploy.
+
+**After deploying, check it:** paste your URL into <https://www.opengraph.xyz> or LinkedIn's
+[Post Inspector](https://www.linkedin.com/post-inspector/), and add the site + `sitemap.xml` in
+[Google Search Console](https://search.google.com/search-console). Social apps cache previews, so re-scrape in Post Inspector after changes.
+
 ## Other hosts (VPS, Render, Railway, Fly…)
 
 ```bash

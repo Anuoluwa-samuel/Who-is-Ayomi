@@ -3,8 +3,29 @@
   "heading": "Some of my *recent work*",
   "linkLabel": "View Project",
   "items": [
-    { "title": "E-Commerce Platform", "blurb": "Full-stack e-commerce solution with modern UI/UX", "link": "#", "art": "bloom" },
-    { "title": "Task Management App", "blurb": "Collaborative task management application", "link": "#", "art": "ripple" },
-    { "title": "Crypto Dashboard", "blurb": "Real-time cryptocurrency tracking dashboard", "link": "#", "art": "aurora" }
+    {
+      "title": "Student Dropout Early-Warning System",
+      "blurb": "ML model and Flask app that flags dropout risk, trained on survey data from 35 southwest Nigerian universities.",
+      "link": "#case-study",
+      "art": "aurora"
+    },
+    {
+      "title": "E-Commerce Platform",
+      "blurb": "Full-stack e-commerce solution with modern UI/UX",
+      "link": "#",
+      "art": "bloom"
+    },
+    {
+      "title": "Task Management App",
+      "blurb": "Collaborative task management application",
+      "link": "#",
+      "art": "ripple"
+    },
+    {
+      "title": "Crypto Dashboard",
+      "blurb": "Real-time cryptocurrency tracking dashboard",
+      "link": "#",
+      "art": "aurora"
+    }
   ]
 }

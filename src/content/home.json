@@ -31,13 +31,6 @@
     }
   ],
   "secondaryButton": "Download CV",
-  "codePassion": "Building things for the web",
-  "codeSkills": [
-    "HTML",
-    "CSS",
-    "JavaScript",
-    "React"
-  ],
   "headline": "I build things for the web.",
   "primaryButton": "View My Work",
   "greeting": "Hi, I'm",

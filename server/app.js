@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export const ROOT = path.resolve(__dirname, "..")
 const DEFAULTS_DIR = path.join(ROOT, "src", "content")
 
-export const SECTIONS = ["site", "home", "about", "skills", "projects", "contact"]
+export const SECTIONS = ["site", "home", "about", "skills", "projects", "casestudy", "contact"]
 const SESSION_MS = 1000 * 60 * 60 * 12 // 12 hours
 export const UPLOAD_LIMIT = 4 * 1024 * 1024 // Vercel functions accept ~4.5 MB request bodies
 const UPLOAD_TYPES = {
@@ -39,19 +39,22 @@ const readDefault = (id) => {
  * @param {import('./storage-fs.js').Storage} opts.storage   where content / uploads live
  * @param {boolean} [opts.isProd]                            production: no first-run password screen, Secure cookies
  */
+/** All sections: what's saved in storage, falling back to the built-in defaults. Same shape as GET /api/content. */
+export async function loadContent(storage) {
+  let stored = {}
+  try {
+    stored = await storage.readAll()
+  } catch (err) {
+    console.error("[admin] couldn't read stored content, using the built-in defaults:", err.message) // the public site must never break
+  }
+  return Object.fromEntries(SECTIONS.map((id) => [id, stored[id] ?? readDefault(id)]))
+}
+
 export function createApp({ storage, isProd = process.env.NODE_ENV === "production", fetchImpl = globalThis.fetch }) {
   const wrap = (fn) => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
   // ---------------------------------------------------------------- content
-  const readContent = async () => {
-    let stored = {}
-    try {
-      stored = await storage.readAll()
-    } catch (err) {
-      console.error("[admin] couldn't read stored content, serving the built-in defaults:", err.message) // the public site must never break
-    }
-    return Object.fromEntries(SECTIONS.map((id) => [id, stored[id] ?? readDefault(id)]))
-  }
+  const readContent = () => loadContent(storage)
 
   // ---------------------------------------------------------------- auth
   const sha = (s) => crypto.createHash("sha256").update(String(s)).digest()
@@ -249,6 +252,23 @@ export function createApp({ storage, isProd = process.env.NODE_ENV === "producti
   // ---- content (private)
   const isSection = (id) => SECTIONS.includes(id)
 
+  // Prerendered HTML (what Google and link previews read) is rebuilt by a Vercel Deploy Hook after each save.
+  const triggerRebuild = async () => {
+    const hook = process.env.VERCEL_DEPLOY_HOOK_URL || process.env.DEPLOY_HOOK_URL
+    if (!hook) return false
+    try {
+      const ctrl = new AbortController()
+      const timer = setTimeout(() => ctrl.abort(), 4000)
+      const r = await fetchImpl(hook, { method: "POST", signal: ctrl.signal })
+      clearTimeout(timer)
+      if (!r.ok) console.error("[admin] deploy hook answered", r.status)
+      return r.ok
+    } catch (err) {
+      console.error("[admin] couldn't reach the deploy hook:", err.message)
+      return false
+    }
+  }
+
   app.put("/api/admin/content/:section", requireAuth, wrap(async (req, res) => {
     const id = req.params.section
     if (!isSection(id)) return res.status(404).json({ error: "Unknown section" })
@@ -258,7 +278,7 @@ export function createApp({ storage, isProd = process.env.NODE_ENV === "producti
     const previous = await storage.readSection(id)
     if (previous) await storage.pushHistory(id, previous)
     await storage.writeSection(id, data)
-    res.json({ ok: true })
+    res.json({ ok: true, rebuilding: await triggerRebuild() })
   }))
 
   app.get("/api/admin/history/:section", requireAuth, wrap(async (req, res) => {
@@ -275,7 +295,7 @@ export function createApp({ storage, isProd = process.env.NODE_ENV === "producti
     const current = await storage.readSection(id)
     if (current) await storage.pushHistory(id, current)
     await storage.writeSection(id, data)
-    res.json({ ok: true, data })
+    res.json({ ok: true, data, rebuilding: await triggerRebuild() })
   }))
 
   app.get("/api/admin/export", requireAuth, wrap(async (_req, res) => {

@@ -24,7 +24,12 @@ if (storage.kind === "fs") {
 
 // production: serve the built site (also /admin, which is part of the same app)
 if (fs.existsSync(path.join(DIST_DIR, "index.html"))) {
-  app.use(express.static(DIST_DIR, { index: false, maxAge: "1h" }))
+  app.use(express.static(DIST_DIR, { index: false, redirect: false, maxAge: "1h" }))
+  const adminPage = path.join(DIST_DIR, "admin", "index.html")
+  app.get(/^\/admin(\/.*)?$/, (_req, res) => {
+    res.setHeader("Cache-Control", "no-cache")
+    res.sendFile(fs.existsSync(adminPage) ? adminPage : path.join(DIST_DIR, "index.html"))
+  })
   app.get(/.*/, (_req, res) => {
     res.setHeader("Cache-Control", "no-cache")
     res.sendFile(path.join(DIST_DIR, "index.html"))

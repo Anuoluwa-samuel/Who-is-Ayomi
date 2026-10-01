@@ -9,11 +9,13 @@ import { Hero } from "@/sections/hero"
 import { About } from "@/sections/about"
 import { Skills } from "@/sections/skills"
 import { Projects } from "@/sections/projects"
+import { CaseStudy } from "@/sections/case-study"
 import { Contact } from "@/sections/contact"
 import { Footer } from "@/sections/footer"
 
 export default function App() {
-  const isPreview = new URLSearchParams(location.search).has("preview")
+  // (render-safe: also runs at build time when the page is prerendered)
+  const isPreview = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("preview")
   const [showIntro, setShowIntro] = useState(!isPreview)
   const onIntroDone = useCallback(() => setShowIntro(false), [])
 
@@ -35,6 +37,7 @@ export default function App() {
         <About />
         <Skills />
         <Projects />
+        <CaseStudy />
         <Contact />
       </main>
       <Footer />

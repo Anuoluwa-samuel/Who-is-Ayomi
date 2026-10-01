@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Moon, Sun } from "lucide-react"
 
 /** Light / dark switch. The theme lives on <html data-theme> (set before first paint in index.html). */
 export function ThemeToggle() {
-  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === "dark")
+  // start "light" so the prerendered HTML and the first browser render match, then read the real theme
+  const [dark, setDark] = useState(false)
+  useEffect(() => setDark(document.documentElement.dataset.theme === "dark"), [])
 
   const toggle = () => {
     const next = !dark

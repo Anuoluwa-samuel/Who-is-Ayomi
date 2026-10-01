@@ -184,22 +184,6 @@ export function Hero() {
           <div className="layer l-b3" data-depth="1.1"><div className="bubble" style={cssVars({ "--s": "34px", "--d": "5s" })} /></div>
           <div className="layer l-b4" data-depth="0.8"><div className="bubble" style={cssVars({ "--s": "56px", "--d": "9s" })} /></div>
 
-          <div className="layer l-code" data-depth="1.0">
-            <div className="codecard glass glass--liquid">
-              <div className="codecard__bar"><span>&lt;/&gt; Code</span><i /></div>
-              <pre>
-                <span className="k">const</span> developer = {"{"}
-                {"\n  name: "}<span className="s">"{profile.name}"</span>,
-                {"\n  skills: ["}
-                {home.codeSkills.map((s, idx) => (
-                  <span key={idx}>{idx > 0 && ", "}<span className="s">"{s}"</span></span>
-                ))}
-                {"],\n  passion: "}<span className="s">"{home.codePassion}"</span>
-                {"\n};"}
-              </pre>
-            </div>
-          </div>
-
           {home.availability && (
             <div className="layer l-badge" data-depth="1.2">
               <div className="badge glass"><i className="pulse pulse--green" />{home.availability}</div>

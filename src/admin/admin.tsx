@@ -100,10 +100,10 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     if (!isDirty(active)) return
     setSaving(true)
     try {
-      await api.save(active, drafts[active])
+      const result = await api.save(active, drafts[active])
       setSaved((s) => ({ ...s, [active]: drafts[active] as Obj }))
       setVersions(null)
-      flash("Saved — your site is updated")
+      flash(result.rebuilding ? "Saved — live now · Google & link previews refresh in ~1 min" : "Saved — your site is updated")
       frame.current?.contentWindow?.location.reload()
     } catch (e) {
       if (e instanceof ApiError && e.status === 401) return onLogout()

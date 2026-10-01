@@ -8,6 +8,7 @@ import aboutDefault from "@/content/about.json"
 import skillsDefault from "@/content/skills.json"
 import projectsDefault from "@/content/projects.json"
 import contactDefault from "@/content/contact.json"
+import caseStudyDefault from "@/content/casestudy.json"
 
 // main.tsx fetches /api/content before loading the app and stores it here.
 // If there is no server (static hosting) the bundled defaults above are used.
@@ -20,6 +21,7 @@ const aboutJson = merge(aboutDefault, "about")
 const skillsJson = merge(skillsDefault, "skills")
 const projectsJson = merge(projectsDefault, "projects")
 const contactJson = merge(contactDefault, "contact")
+const caseStudyJson = merge(caseStudyDefault, "casestudy")
 
 const iconUrl = (slug: string) =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${slug}/${slug}-original.svg`
@@ -51,6 +53,7 @@ export const navLinks = [
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
+  { id: "case-study", label: "Case study" },
   { id: "contact", label: "Contact" },
 ] as const
 
@@ -98,3 +101,5 @@ export const testimonial = {
     .join(""),
 }
 export const socials = contactJson.socials
+
+export const caseStudy = caseStudyJson

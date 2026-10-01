@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 /** False while the loading screen is up (html.intro-active), true once it has let go. */
 export function useAfterIntro() {
-  const [done, setDone] = useState(() => !document.documentElement.classList.contains("intro-active"))
+  const [done, setDone] = useState(() => typeof document !== "undefined" && !document.documentElement.classList.contains("intro-active"))
 
   useEffect(() => {
     const root = document.documentElement
